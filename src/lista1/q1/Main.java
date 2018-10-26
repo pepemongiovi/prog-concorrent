@@ -7,54 +7,17 @@ public class Main {
 	public static void main(String args[]) throws InterruptedException {
         
 		ChannelImpl channel = new ChannelImpl(5);
+		Producer producer = new Producer(channel);
+		Consumer consumer = new Consumer(channel);
 		
-        Thread t1 = new Thread(new Runnable() 
-        { 
-            @Override
-            public void run() 
-            { 
-                try {
-                	channel.takeMessage();
-                    channel.takeMessage();
-                    channel.takeMessage();
-                	
-					Thread.sleep(5000);
-					
-					channel.takeMessage();
-					channel.takeMessage();
-					channel.takeMessage();
-					channel.takeMessage();
-					channel.takeMessage();
-					channel.takeMessage();
-					channel.takeMessage();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}  
-            } 
-        }); 
-  
-        Thread t2 = new Thread(new Runnable() 
-        { 
-            @Override
-            public void run() {     
-            	channel.putMessage("msg 1");
-            	channel.putMessage("msg 2");
-            	channel.putMessage("msg 3");
-            	channel.putMessage("msg 4");
-            	channel.putMessage("msg 5");
-            	channel.putMessage("msg 6");
-            	channel.putMessage("msg 7");
-            	channel.putMessage("msg 8");
-            	channel.putMessage("msg 9");
-            	channel.putMessage("msg 10");
-            } 
-        }); 
+        Thread producerThread = new Thread(producer ,"producer-thread");
+        Thread consumerThread = new Thread(consumer ,"consumer-thread");
         
-        t1.start();
-        t2.start();
+        producerThread.start();
+        consumerThread.start();
         
-        t1.join();
-        t2.join();
+        producerThread.join();
+        consumerThread.join();
     }
 }
 
