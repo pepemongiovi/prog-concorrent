@@ -1,0 +1,10 @@
+### Eclipse ###
+.classpath
+.settings
+.bin
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
