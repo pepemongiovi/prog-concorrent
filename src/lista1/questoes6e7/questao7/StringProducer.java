@@ -1,6 +1,7 @@
-package lista1.questao7;
+package lista1.questoes6e7.questao7;
 
-import lista1.channel.Channel;
+import lista1.questoes6e7.channel.Channel;
+import lista1.utils.Utils;
 
 import java.util.Random;
 
@@ -32,7 +33,8 @@ public class StringProducer implements Runnable {
     public void run() {
         for (int i=0; i < 10; i++) {
             String alphanumString = this.generateRandomAlphanumString();
-            this.channel.putMessage(alphanumString);
+            this.channel.put(alphanumString);
         }
+        this.channel.closeChannel();
     }
 }

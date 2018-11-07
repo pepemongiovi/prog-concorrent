@@ -1,12 +1,11 @@
-package lista1.questao6;
+package lista1.questoes6e7.questao6;
 
-import lista1.channel.Channel;
-import lista1.channel.ChannelImpl;
+import lista1.questoes6e7.channel.Channel;
 
 public class Main {
 
     public static void main(String args[]) throws InterruptedException {
-        Channel<Integer> channel = new ChannelImpl<>();
+        Channel<Integer> channel = new Channel<>("channel");
 
         NumberProducer numberProducer = new NumberProducer(channel);
         NumberConsumer numberConsumer = new NumberConsumer(channel);

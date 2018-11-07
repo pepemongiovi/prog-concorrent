@@ -1,7 +1,5 @@
 package lista1.questao1;
 
-import lista1.channel.Channel;
-
 public class Producer implements Runnable{
 
 	Channel channel;

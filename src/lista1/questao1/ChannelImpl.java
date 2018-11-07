@@ -1,4 +1,4 @@
-package lista1.channel;
+package lista1.questao1;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -6,21 +6,15 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ChannelImpl<T> implements Channel<T> {
+public class ChannelImpl implements Channel {
 
-	private final int MAX_CAPACITY = Integer.MAX_VALUE;
 	private final int CAPACITY;
 	
 	private final Lock lock = new ReentrantLock();
     private final Condition notFull = lock.newCondition();
     private final Condition notEmpty = lock.newCondition();
     
-    private final Queue<T> messageQueue;
-
-	public ChannelImpl() {
-		this.CAPACITY = MAX_CAPACITY;
-		messageQueue = new LinkedList<>();
-	}
+    private final Queue<String> messageQueue;
 
 	public ChannelImpl(int capacity) {
 		this.CAPACITY = capacity;
@@ -28,7 +22,7 @@ public class ChannelImpl<T> implements Channel<T> {
 	}
 
 	@Override
-	public void putMessage(T message) {
+	public void putMessage(String message) {
 	    lock.lock();
 
     	while (this.messageQueue.size() == this.CAPACITY) {
@@ -45,7 +39,7 @@ public class ChannelImpl<T> implements Channel<T> {
 	}
 
 	@Override
-	public T takeMessage() {
+	public String takeMessage() {
 		lock.lock();
 
     	while (this.messageQueue.isEmpty()) {
@@ -54,7 +48,7 @@ public class ChannelImpl<T> implements Channel<T> {
             } catch (InterruptedException e) { }
         }
 
-    	T message = this.messageQueue.poll();
+    	String message = this.messageQueue.poll();
 
         this.notFull.signalAll();
     	lock.unlock();

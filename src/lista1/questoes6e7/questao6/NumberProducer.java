@@ -1,13 +1,13 @@
-package lista1.questao6;
+package lista1.questoes6e7.questao6;
 
-import lista1.channel.Channel;
+import lista1.questoes6e7.channel.Channel;
 import lista1.utils.Utils;
 
 import java.util.Random;
 
 public class NumberProducer implements Runnable {
 
-    private final Channel channel;
+    private final Channel<Integer> channel;
 
     public NumberProducer(Channel channel) {
         this.channel = channel;
@@ -18,10 +18,11 @@ public class NumberProducer implements Runnable {
         Random random = new Random();
         for(int i=0; i<10; i++) {
             Integer randomNumber = random.nextInt(50);
-            this.channel.putMessage(randomNumber);
+            this.channel.put(randomNumber);
 
             // Sleep for 1 second
             Utils.sleep(1000);
         }
+        this.channel.closeChannel();
     }
 }
