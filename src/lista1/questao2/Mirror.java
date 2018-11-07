@@ -1,4 +1,4 @@
-package lista1.q2;
+package lista1.questao2;
 
 /**
  *  Thread that get response and store into {@link Response}.
@@ -7,7 +7,7 @@ package lista1.q2;
  */
 public class Mirror implements Runnable {
 
-    private static final String RESPONSE = "I'm the response!!!";
+    private static final String RESPONSE = "I'm the xresponse!!!";
 
     private final Response response;
     private final String name;

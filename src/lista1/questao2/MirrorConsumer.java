@@ -1,4 +1,4 @@
-package lista1.q2;
+package lista1.questao2;
 
 /**
  * Class that wait for {@link Response} from a {@link Mirror}.
