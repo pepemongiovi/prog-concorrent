@@ -18,7 +18,7 @@ public class StringFilter implements Runnable {
 
     @Override
     public void run() {
-        while (this.producerChannel.isOpen()) {
+        while (!this.producerChannel.isClosed()) {
             try {
                 String alphanumberString = this.producerChannel.take();
                 if(alphanumberString != null && !containsNumber(alphanumberString)) {
@@ -28,6 +28,10 @@ public class StringFilter implements Runnable {
                 e.printStackTrace();
             }
         }
-        this.filteredChannel.closeChannel();
+        try {
+            this.filteredChannel.closeChannel();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

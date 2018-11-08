@@ -16,13 +16,17 @@ public class NumberProducer implements Runnable {
     @Override
     public void run() {
         Random random = new Random();
-        for(int i=0; i<10; i++) {
+        for(int i=0; i<30; i++) {
             Integer randomNumber = random.nextInt(50);
             this.channel.put(randomNumber);
 
             // Sleep for 1 second
             Utils.sleep(1000);
         }
-        this.channel.closeChannel();
+        try {
+            this.channel.closeChannel();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

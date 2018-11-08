@@ -12,7 +12,7 @@ public class ConsumerFilterString implements Runnable {
 
     @Override
     public void run() {
-        while(this.channel.isOpen()) {
+        while(!this.channel.isClosed()) {
             try {
                 String alpha = this.channel.take();
                 if(alpha != null) {
