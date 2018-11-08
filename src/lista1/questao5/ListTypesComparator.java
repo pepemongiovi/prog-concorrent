@@ -1,4 +1,4 @@
-package lista1.q5;
+package lista1.questao5;
 
 import java.util.ArrayList;
 import java.util.Collections;

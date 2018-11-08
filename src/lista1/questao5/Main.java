@@ -1,4 +1,4 @@
-package lista1.q5;
+package lista1.questao5;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
