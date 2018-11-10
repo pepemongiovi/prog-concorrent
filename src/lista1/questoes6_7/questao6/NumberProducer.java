@@ -1,6 +1,6 @@
-package lista1.questoes6e7.questao6;
+package lista1.questoes6_7.questao6;
 
-import lista1.questoes6e7.channel.Channel;
+import lista1.questoes6_7.channel.Channel;
 import lista1.utils.Utils;
 
 import java.util.Random;

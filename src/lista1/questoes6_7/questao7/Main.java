@@ -1,6 +1,6 @@
-package lista1.questoes6e7.questao7;
+package lista1.questoes6_7.questao7;
 
-import lista1.questoes6e7.channel.Channel;
+import lista1.questoes6_7.channel.Channel;
 
 public class Main {
 

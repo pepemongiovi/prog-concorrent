@@ -1,4 +1,4 @@
-package lista1.questoes6e7.channel;
+package lista1.questoes6_7.channel;
 
 import java.util.LinkedList;
 import java.util.Queue;
