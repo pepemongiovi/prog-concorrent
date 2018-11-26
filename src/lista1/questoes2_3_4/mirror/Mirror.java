@@ -26,8 +26,9 @@ public class Mirror implements Callable<String> {
     @Override
     public String call() throws Exception {
         Random random = new Random();
-        Integer n = random.nextInt(80);
-        System.out.println("Mirror " + name + " calculating fibonacci " + n);
+        Integer n = random.nextInt(20); // If you wants testing Questão 2.
+        //Integer n = random.nextInt(100); // If you wants testing Questão 3.
+        // System.out.println("Mirror " + name + " calculating fibonacci " + n); // if you wants testing Questões 2 e 3.
         int r = fibonacci(n);
         return "Mirror " + name + " with response: " + response;
     }

@@ -13,7 +13,7 @@ public class NumberConsumer implements Runnable {
 
     @Override
     public void run() {
-        while(!this.channel.isClosed()) {
+        while(!this.channel.isClosed() || !this.channel.isEmpty()) {
             try {
                 Integer number = channel.take();
                 if(number != null && Utils.isEven(number)) {

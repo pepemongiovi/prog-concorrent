@@ -22,21 +22,23 @@ public class Channel<T> {
         isClosed = false;
     }
 
+    /**
+     * Returns the isClosed's value.
+     *
+     * @return {@code true} if is closed, false otherwise
+     */
     public boolean isClosed() {
         return isClosed;
     }
 
     /**
      * Closes the channel if the queue is empty.
-     *
-     * @throws InterruptedException
      */
-    public void closeChannel() throws InterruptedException {
+    public void closeChannel() {
         synchronized (this.messageQueue) {
-            while (!this.messageQueue.isEmpty()) {
-                this.messageQueue.wait();
-            }
             this.isClosed = true;
+            // It is necessary, because there may be threads waiting to take messages in
+            // the queue, so it wakes them up.
             this.messageQueue.notifyAll();
         }
     }
@@ -72,6 +74,17 @@ public class Channel<T> {
             T message = this.messageQueue.poll();
             this.messageQueue.notifyAll();
             return message;
+        }
+    }
+
+    /**
+     * Returns is channel's queue is empty.
+     *
+     * @return {@code true} if queue is empty, false otherwise
+     */
+    public boolean isEmpty() {
+        synchronized (this.messageQueue) {
+            return this.messageQueue.isEmpty();
         }
     }
 }

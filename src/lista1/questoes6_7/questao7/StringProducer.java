@@ -4,6 +4,11 @@ import lista1.questoes6_7.channel.Channel;
 
 import java.util.Random;
 
+/**
+ * Producer aplhanumber strings and insert into Producer {@link Channel}.
+ *
+ * @author Thaynan Nunes
+ */
 public class StringProducer implements Runnable {
 
     private final String ALPHANUM = "abcdefghijklmnopqrstuvxywz0123456789";
@@ -13,6 +18,11 @@ public class StringProducer implements Runnable {
         this.channel = channel;
     }
 
+    /**
+     * Generates and returns random string that can contains numbers or letters.
+     *
+     * @return String generated
+     */
     public String generateRandomAlphanumString() {
         Random random = new Random();
 
@@ -34,10 +44,6 @@ public class StringProducer implements Runnable {
             String alphanumString = this.generateRandomAlphanumString();
             this.channel.put(alphanumString);
         }
-        try {
-            this.channel.closeChannel();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.channel.closeChannel();
     }
 }

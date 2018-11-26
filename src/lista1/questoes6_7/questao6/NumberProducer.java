@@ -21,12 +21,12 @@ public class NumberProducer implements Runnable {
             this.channel.put(randomNumber);
 
             // Sleep for 1 second
-            Utils.sleep(1000);
+            Utils.sleep(100);
         }
-        try {
-            this.channel.closeChannel();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+        this.channel.closeChannel();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 }
