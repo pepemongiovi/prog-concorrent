@@ -10,6 +10,9 @@ public class Consumer implements Runnable{
 		this.channel = channel;
 	}
 	
+    /**
+     * Gets messages from the channel
+     */
 	@Override
 	public void run() {
 		for(int i=0; i < 3; i++) {

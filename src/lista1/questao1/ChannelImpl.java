@@ -20,7 +20,12 @@ public class ChannelImpl implements Channel {
 		this.CAPACITY = capacity;
 		messageQueue = new LinkedList<>();
 	}
-
+	
+    /**
+     * Inserts message in queue
+     *
+     * @param message Message to be inserted
+     */
 	@Override
 	public void putMessage(String message) {
 	    lock.lock();
@@ -37,7 +42,12 @@ public class ChannelImpl implements Channel {
         this.notEmpty.signalAll();
         lock.unlock();
 	}
-
+	
+    /**
+     * Gets and removes the value on top of the queue
+     *
+     * @return message that was removed from queue
+     */
 	@Override
 	public String takeMessage() {
 		lock.lock();

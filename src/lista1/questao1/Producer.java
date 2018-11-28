@@ -8,6 +8,9 @@ public class Producer implements Runnable{
 		this.channel = channel;
 	}
 	
+    /**
+     * Inserts messages in channel
+     */
 	@Override
 	public void run() {
 		for (int i=1; i<11; i++) {

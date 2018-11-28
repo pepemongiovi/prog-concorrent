@@ -6,23 +6,31 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MapTypesComparator {
+public class MapTypesComparator implements Runnable {
 
-	final static int SIZE = 90000;
+	static int SIZE;
 	
-	public void compare() {
-		System.out.println("ConcurrentHashMap GET: " + concurrentHashmapGet());
-		System.out.println("synchronizedMap GET: " + synchronizedMapGet());
-		System.out.println("\nConcurrentHashMap PUT: " + concurrentHashmapPut());
-		System.out.println("synchronizedMap PUT: " + synchronizedMapPut());
-		System.out.println("\nConcurrentHashMap REMOVE: " + concurrentHashmapRemove());
-		System.out.println("synchronizedMap REMOVE: " + synchronizedMapRemove());
-		System.out.println("\nConcurrentHashMap IS_EMPTY: " + concurrentHashmapIsEmpty());
-		System.out.println("synchronizedMap IS_EMPTY: " + synchronizedMapIsEmpty());
-		System.out.println("\nConcurrentHashMap SIZE: " + concurrentHashmapSize());
-		System.out.println("synchronizedMap SIZE: " + synchronizedMapSize());
+	public MapTypesComparator(int num_of_threads) {
+		SIZE = 150000/num_of_threads;
 	}
 	
+	@Override
+	public void run() {
+//		System.out.println("ConcurrentHashMap GET: " + concurrentHashmapGet());
+//		System.out.println("synchronizedMap GET: " + synchronizedMapGet());
+		
+//		System.out.println("\nConcurrentHashMap PUT: " + concurrentHashmapPut());
+//		System.out.println("synchronizedMap PUT: " + synchronizedMapPut());
+		
+//		System.out.println("\nConcurrentHashMap REMOVE: " + concurrentHashmapRemove());
+//		System.out.println("synchronizedMap REMOVE: " + synchronizedMapRemove());
+	}
+	
+    /**
+     * Gives the time in milliseconds of put operations
+     *
+     * @return time in milliseconds of put operations
+     */
 	private static long concurrentHashmapPut() 
 	{
 		Map<String,Integer> myMap = new ConcurrentHashMap<String,Integer>();
@@ -34,6 +42,11 @@ public class MapTypesComparator {
 		return stopTime-startTime;
 	}
 	
+    /**
+     * Gives the time in milliseconds of put operations
+     *
+     * @return time in milliseconds of put operations
+     */
 	private static long synchronizedMapPut() 
 	{	
 		Map<String,Integer> myMap = new HashMap<String,Integer>();
@@ -46,6 +59,11 @@ public class MapTypesComparator {
 	    return stopTime-startTime;
 	}
 	
+    /**
+     * Gives the time in milliseconds of remove operations
+     *
+     * @return time in milliseconds of remove operations
+     */
 	private static long concurrentHashmapRemove() 
 	{
 		Map<String,Integer> myMap = new ConcurrentHashMap<String,Integer>();
@@ -58,6 +76,11 @@ public class MapTypesComparator {
 		return stopTime-startTime;
 	}
 	
+    /**
+     * Gives the time in milliseconds of remove operations
+     *
+     * @return time in milliseconds of remove operations
+     */
 	private static long synchronizedMapRemove() 
 	{	
 		Map<String,Integer> myMap = new HashMap<String,Integer>();
@@ -72,6 +95,11 @@ public class MapTypesComparator {
 		return stopTime-startTime;
 	}
 	
+    /**
+     * Gives the time in milliseconds of get operations
+     *
+     * @return time in milliseconds of get operations
+     */
 	private static long concurrentHashmapGet() 
 	{
 		Map<String,Integer> myMap = new ConcurrentHashMap<String,Integer>();
@@ -84,6 +112,11 @@ public class MapTypesComparator {
 		return stopTime-startTime;
 	}
 	
+    /**
+     * Gives the time in milliseconds of get operations
+     *
+     * @return time in milliseconds of get operations
+     */
 	private static long synchronizedMapGet() 
 	{	
 		Map<String,Integer> myMap = new HashMap<String,Integer>();
@@ -98,92 +131,36 @@ public class MapTypesComparator {
 		return stopTime-startTime;
 	}
 	
-	private static long concurrentHashmapIsEmpty() 
-	{
-		Map<String,Integer> myMap = new ConcurrentHashMap<String,Integer>();
-		populateMap(myMap);
-		
-		long startTime = System.currentTimeMillis();
-		testIsEmpty(myMap);
-		long stopTime = System.currentTimeMillis();
-		
-		return stopTime-startTime;
-	}
-	
-	private static long synchronizedMapIsEmpty() 
-	{	
-		Map<String,Integer> myMap = new HashMap<String,Integer>();
-		Map<String,Integer> synmap = Collections.synchronizedMap(myMap);
-		
-		populateMap(synmap);
-	    
-		long startTime = System.currentTimeMillis();
-		testIsEmpty(synmap);
-		long stopTime = System.currentTimeMillis();
-	    
-	    return stopTime-startTime;
-	}
-	
-	private static long concurrentHashmapSize() 
-	{
-		Map<String,Integer> myMap = new ConcurrentHashMap<String,Integer>();
-		populateMap(myMap);
-		
-		long startTime = System.currentTimeMillis();
-		testSize(myMap);
-		long stopTime = System.currentTimeMillis();
-		
-		return stopTime-startTime;
-	}
-	
-	private static long synchronizedMapSize() 
-	{	
-		Map<String,Integer> myMap = new HashMap<String,Integer>();
-		Map<String,Integer> synmap = Collections.synchronizedMap(myMap);
-		
-		populateMap(synmap);
-	    
-		long startTime = System.currentTimeMillis();
-		testSize(synmap);
-		long stopTime = System.currentTimeMillis();
-	    
-	    return stopTime-startTime;
-	}
-	
-	private static Map populateMap(Map map) 
+    /**
+     * Adds elements to map
+     *
+     * @param myMap Map that's going to have elements added to it
+     */
+	private static void populateMap(Map<String, Integer> myMap) 
 	{
 		for (int i = 0; i <= SIZE; i++) {
-			map.put(String.valueOf(i), i);
+			myMap.put(String.valueOf(i), i);
 		}
-		return map;
 	}
 	
-	private static void testRemove(Map map) 
+    /**
+     * Removes elements from map
+     *
+     * @param myMap Map that's going to have it's elements removed
+     */
+	private static void testRemove(Map<String, Integer> myMap) 
 	{
 		for (int i = 0; i <= SIZE; i++) {
-			map.remove(String.valueOf(i), i);
+			myMap.remove(String.valueOf(i), i);
 		}
 	}
 	
-	private static void testIsEmpty(Map map) 
-	{
-		int i = SIZE;
-		while (i!=0) {
-			map.isEmpty();
-			i--;
-		}
-	}
-	
-	private static void testSize(Map map) 
-	{
-		int i = SIZE;
-		while (i!=0) {
-			map.size();
-			i--;
-		}
-	}
-	
-	private static void testGet(Map myMap) 
+    /**
+     * Access elements from map
+     *
+     * @param myMap Map that's going to have it's elements accessed
+     */
+	private static void testGet(Map<String, Integer> myMap) 
 	{	
 		Iterator<String> it = myMap.keySet().iterator();
 		
