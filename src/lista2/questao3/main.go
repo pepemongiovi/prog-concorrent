@@ -80,7 +80,7 @@ func notificarParada(
 func iniciarRequests() {
 	parada := make(chan interface{})
 
-	executaAteSinalDeParada(parada)
+	go executaAteSinalDeParada(parada)
 	notificarParada(parada)
 }
 
