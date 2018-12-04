@@ -13,7 +13,8 @@ func request(
 	resposta chan<- string,
 	id int,
 ) {
-	tempoEspera := 1 + rand.Intn(4)
+	// tempoEspera := 1 + rand.Intn(3) // probabilidade alta de ter uma resposta em menos de 2 segundos.
+	tempoEspera := 1 + rand.Intn(4) // probabilidade baixa de ter uma resposta em menos de 2 segundos, consequentemente, lançar uma exceção.
 	tempoEsperaEmSegundos := time.Duration(tempoEspera) * time.Second
 
 	fmt.Println("mirror " + strconv.Itoa(id) + " esperando por: " + strconv.Itoa(tempoEspera) + " segundos")
