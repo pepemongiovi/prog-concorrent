@@ -2,11 +2,7 @@ package lista1.questao5;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ListTypesComparator implements Runnable {
@@ -20,7 +16,7 @@ public class ListTypesComparator implements Runnable {
 	@Override
 	public void run() {
 //		System.out.println("CopyOnWriteArrayList GET: " + copyOnWriteArrayListGet());
-//		System.out.println("synchronizedList GET: " + synchronizedListGet());
+		System.out.println("synchronizedList GET: " + synchronizedListGet());
 		
 //		System.out.println("\nCopyOnWriteArrayList PUT: " + copyOnWriteArrayListPut());
 //		System.out.println("synchronizedList PUT: " + synchronizedListPut());

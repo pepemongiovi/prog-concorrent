@@ -20,8 +20,6 @@ func request(
 	tempoEspera := 1 + rand.Intn(10)
 	tempoEsperaEmSegundos := time.Duration(tempoEspera) * time.Second
 
-	fmt.Println("mirror " + strconv.Itoa(id) + " esperando por: " + strconv.Itoa(tempoEspera) + " segundos")
-
 	select {
 	case <-concluido:
 	case <-time.After(tempoEsperaEmSegundos):
@@ -33,7 +31,9 @@ func request(
 	}
 }
 
-func reliableRequest() string {
+func reliableRequest(initialMemoryUsage uint64, ch *sync.WaitGroup) string {
+	defer ch.Done()
+	
 	concluido := make(chan interface{})
 	resposta := make(chan string)
 
@@ -48,7 +48,7 @@ func reliableRequest() string {
 	close(concluido)
 
 	wg.Wait()
-
+	
 	return respostaMirror
 }
 
@@ -58,14 +58,22 @@ func getCurrentMemoryUsage() uint64 {
         return m.Alloc
 }
 
-func main() {
+func main() { 
+  
+  	var NUM_OF_THREADS int = 2000
+  
 	initialMemoryUsage := getCurrentMemoryUsage()
 	
-	respostaMirror := reliableRequest()
+	var ch sync.WaitGroup
+	ch.Add(NUM_OF_THREADS)
+	
+	for i := 0; i < NUM_OF_THREADS; i++ {
+		go reliableRequest(initialMemoryUsage, &ch)
+	}
+	
+	ch.Wait()
 	
 	posteriorMemoryUsage := getCurrentMemoryUsage()
-	
-	fmt.Println(respostaMirror)
 
 	fmt.Printf("\nMemory usage = %v bytes\n", (posteriorMemoryUsage-initialMemoryUsage))
 }

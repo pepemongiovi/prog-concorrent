@@ -12,12 +12,12 @@ public class MapTypesComparator implements Runnable {
 	
 	public MapTypesComparator(int num_of_threads) {
 		SIZE = 150000/num_of_threads;
-	}
+	} 
 	
 	@Override
 	public void run() {
-//		System.out.println("ConcurrentHashMap GET: " + concurrentHashmapGet());
-//		System.out.println("synchronizedMap GET: " + synchronizedMapGet());
+		System.out.println("ConcurrentHashMap GET: " + concurrentHashmapGet());
+		//System.out.println("synchronizedMap GET: " + synchronizedMapGet());
 		
 //		System.out.println("\nConcurrentHashMap PUT: " + concurrentHashmapPut());
 //		System.out.println("synchronizedMap PUT: " + synchronizedMapPut());
