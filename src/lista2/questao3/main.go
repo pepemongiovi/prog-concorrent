@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
-	"sync"
 	"time"
 )
 
@@ -12,11 +11,8 @@ func request(
 	concluido <-chan interface{},
 	resposta chan<- string,
 	id int,
-	wg *sync.WaitGroup,
 ) {
-	defer wg.Done()
-
-	tempoEspera := 1 + rand.Intn(10)
+	tempoEspera := 1 + rand.Intn(4)
 	tempoEsperaEmSegundos := time.Duration(tempoEspera) * time.Second
 
 	select {
@@ -34,17 +30,12 @@ func reliableRequest() string {
 	concluido := make(chan interface{})
 	resposta := make(chan string)
 
-	var wg sync.WaitGroup
-	wg.Add(3)
-
 	for i := 0; i < 3; i++ {
-		go request(concluido, resposta, i, &wg)
+		go request(concluido, resposta, i)
 	}
 
 	respostaMirror := <-resposta
 	close(concluido)
-
-	wg.Wait()
 
 	return respostaMirror
 }
@@ -52,16 +43,19 @@ func reliableRequest() string {
 func executaAteSinalDeParada(
 	parada <-chan interface{},
 ) {
-	select {
-	case <-parada:
-		{
-			fmt.Println("Acabou")
-		}
-	default:
-		{
-			respostaMirror := reliableRequest()
-			fmt.Println(respostaMirror)
-			go executaAteSinalDeParada(parada)
+loop:
+	for {
+		select {
+		case <-parada:
+			{
+				fmt.Println("Parando as requisições...")
+				break loop
+			}
+		default:
+			{
+				respostaMirror := reliableRequest()
+				fmt.Println(respostaMirror)
+			}
 		}
 	}
 }
@@ -69,21 +63,27 @@ func executaAteSinalDeParada(
 func notificarParada(
 	parada chan<- interface{},
 ) {
-	tempoEsperaEmSegundos := time.Duration(10) * time.Second
+	tempoEspera := 10 + rand.Intn(10)
+	tempoEsperaEmSegundos := time.Duration(tempoEspera) * time.Second
+
+	fmt.Println("Sinal de parada será enviando em torno de " + strconv.Itoa(tempoEspera) + " segundos")
+
 	<-time.After(tempoEsperaEmSegundos)
 
 	fmt.Println("Enviando sinal de parada...")
-
 	close(parada)
 }
 
 func iniciarRequests() {
 	parada := make(chan interface{})
 
-	go executaAteSinalDeParada(parada)
-	notificarParada(parada)
+	go notificarParada(parada)
+
+	fmt.Println("Iniciando requisições...")
+	executaAteSinalDeParada(parada)
 }
 
 func main() {
 	iniciarRequests()
+	fmt.Println("Requisições concluídas.")
 }

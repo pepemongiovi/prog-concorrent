@@ -52,6 +52,7 @@ func reliableRequest() (string, error) {
 }
 
 func main() {
+	fmt.Println("Fazendo a requisição...")
 	respostaMirror, erro := reliableRequest()
 
 	if erro != nil {
