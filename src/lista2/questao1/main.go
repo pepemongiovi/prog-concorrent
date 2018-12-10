@@ -5,11 +5,10 @@ import (
 	"math/rand"
 	"strconv"
 	"time"
-	"runtime"
 )
 
 func request(
-	concluido <-chan interface{},
+	concluido chan interface{},
 	resposta chan<- string,
 	id int,
 ) {
@@ -26,6 +25,7 @@ func request(
 	select {
 	case <-concluido:
 	case resposta <- ("Resposta pelo mirror " + strconv.Itoa(id)):
+		close(concluido)
 	}
 }
 
@@ -38,21 +38,14 @@ func reliableRequest() string {
 	}
 
 	respostaMirror := <-resposta
-	close(concluido)
 
 	return respostaMirror
-}
-
-func getCurrentMemoryUsage() uint64 {
-        var m runtime.MemStats
-        runtime.ReadMemStats(&m)
-        return m.Alloc
 }
 
 func main() {
 	fmt.Println("Fazendo a requisição...")
 
 	respostaMirror := reliableRequest()
-	
+
 	fmt.Println(respostaMirror)
 }

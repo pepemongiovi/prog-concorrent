@@ -8,7 +8,7 @@ import (
 )
 
 func request(
-	concluido <-chan interface{},
+	concluido chan interface{},
 	resposta chan<- string,
 	id int,
 ) {
@@ -23,6 +23,7 @@ func request(
 	select {
 	case <-concluido:
 	case resposta <- ("Resposta pelo mirror " + strconv.Itoa(id)):
+		close(concluido)
 	}
 }
 
@@ -35,7 +36,6 @@ func reliableRequest() string {
 	}
 
 	respostaMirror := <-resposta
-	close(concluido)
 
 	return respostaMirror
 }
